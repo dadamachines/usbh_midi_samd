@@ -68,6 +68,7 @@ protected:
 #endif
 public:
         uint16_t pid, vid;
+        uint8_t  bTransferTypeMask;
         USBH_MIDI(USBHost *p);
         // Methods for recieving and sending data
         uint8_t RecvData(uint8_t *bytes_rcvd, uint8_t *dataptr);

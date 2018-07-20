@@ -160,6 +160,14 @@ uint32_t USBH_MIDI::Init(uint32_t parent, uint32_t port, uint32_t lowspeed)
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
+  // bmUSB_TRANSFER_TYPE
+  if( vid == 0x1235 ) {
+                // LaunchPad's endpoint attirbute is interrupt (0x20:S, 0x36:Mini, 0x51:Pro, 0x69:MK2, 0x7b:Launchkey25 MK2)
+                if(pid == 0x20 || pid == 0x36 || pid == 0x51 || pid == 0x69 || pid == 0x7b ) {
+                        bTransferTypeMask = 2;
+                }
+        }
+
         if( rcode ){
                 goto FailGetDevDescr;
         }
@@ -310,7 +318,7 @@ uint8_t USBH_MIDI::parseConfigDescr( uint8_t addr, uint8_t conf )
                         USBTRACE("-EPAddr:"), D_PrintHex(epDesc->bEndpointAddress, 0x80);
                         USBTRACE(" bmAttr:"), D_PrintHex(epDesc->bmAttributes, 0x80);
                         USBTRACE2(" MaxPktSz:", (uint8_t)epDesc->wMaxPacketSize);
-                        if ((epDesc->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_BULK) {//bulk
+                        if ((epDesc->bmAttributes & bTransferTypeMask) == USB_TRANSFER_TYPE_BULK) {//bulk
                                 uint8_t index;
                                 if( isMidi )
                                         index = ((epDesc->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
