@@ -15,6 +15,8 @@ Changes are needed to the following ArduinoCore-samd files:
 * libraries/USBHost/src/address.h
 * libraries/USBHost/src/Usb.cpp
 
+**NOTE: To successfully compile the project don't keep backup files of the original files in the same folder.** 
+
 All of the USBH_MIDI files require trivial renaming changes.
 
 By the way, the fix described in https://github.com/arduino/ArduinoCore-samd/issues/271 is included.
